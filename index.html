@@ -2397,8 +2397,10 @@ additional terms may apply.  By using this site, you agree to the <a href=#>Term
     <script>
       document.body.addEventListener('click', function(ev){
         document.querySelector('textarea').value = extract_css_selector(ev.target);
-        ev.stopPropagation();
-        ev.preventDefault();
+        if( ev.target.nodeName!=='A' || ev.target.href.substr(-1)==='#' ){
+          ev.stopPropagation();
+          ev.preventDefault();
+        }
       }, true);
     </script>
   </body>
