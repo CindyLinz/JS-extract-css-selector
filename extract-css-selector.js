@@ -51,7 +51,7 @@ function extract_css_selector(target){
 
     if( elem.parentNode === base ){
       cs = elem.parentNode.children;
-      c = 1;
+      c = 1; d = 0;
       for(i=0; i<cs.length; ++i){
         if( cs[i] === elem ){
           for(++i; i<cs.length; ++i){
