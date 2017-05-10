@@ -6,11 +6,15 @@ function extract_css_selector(target){
   base = document.body;
   elem = target;
 
+  function css_ident(str){
+    return str.replace(/[^a-zA-Z0-9\xa0-\uffff]/g, '\\$&');
+  }
+
   GAP: while( base !== target ){
     if( elem.id ){
-      nodes = base.querySelectorAll('#' + elem.id);
+      nodes = base.querySelectorAll('#' + css_ident(elem.id));
       if( nodes.length===1 ){
-        selectors += ' #' + elem.id;
+        selectors += ' #' + css_ident(elem.id);
         base = elem;
         elem = target;
         continue GAP;
@@ -29,7 +33,7 @@ function extract_css_selector(target){
 
     cs = elem.classList;
     for(i=0; i<cs.length; ++i){
-      c = cs[i].replace(/[:\\"']/g, '\\$1');
+      c = css_ident(cs[i]);
       nodes = base.querySelectorAll('.' + c);
       if( nodes.length===1 ){
         selectors += ' .' + c;
@@ -39,7 +43,7 @@ function extract_css_selector(target){
       }
     }
     for(i=0; i<cs.length; ++i){
-      c = cs[i].replace(/[:\\"']/g, '\\$1');
+      c = css_ident(cs[i]);
       nodes = base.querySelectorAll(elem.nodeName + '.' + c);
       if( nodes.length===1 ){
         selectors += ' ' + elem.nodeName + '.' + c;
